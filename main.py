@@ -10,12 +10,16 @@ pygame.display.set_caption("AP CSP Pygame!")
 size = (1200, 800)
 screen = pygame.display.set_mode(size)
 title = "The Mirror Room"
-display_title = my_font.render(title, True, (255,255,255))
+display_title = my_font.render(title, True, (249,234,199))
 
-bg = pygame.image.load("antique backdrop 1.jpg")
+bg1 = pygame.image.load("antique backdrop 1.jpg")
+text_box = pygame.image.load("text box.png")
 
 change_panel = False
 run = True
+interaction = False
+counter = 0
+
 # -------- Main Program Loop -----------
 while run:
     # --- Main event loop
@@ -26,9 +30,22 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN:
             change_panel = True
 
-    if change_panel == False:
-        screen.fill((0, 0, 0))
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            counter += 1
+            print (counter)
+        if counter % 2 == 0:
+            interaction = False
+        else:
+            interaction = True
+
+    if not change_panel:      # starting screen
+        screen.fill((75, 43, 10))
         screen.blit(display_title, (385, 350))
-    elif change_panel == True:
-        screen.blit(bg, (0,0))
+    elif change_panel:
+        screen.blit(bg1, (0, 0))
+
+    if interaction == True:
+        screen.blit(text_box, (150, 130))
+
     pygame.display.update()
