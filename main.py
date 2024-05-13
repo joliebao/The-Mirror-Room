@@ -1,4 +1,6 @@
 import pygame
+from starter_box import Starter_box
+from starter_box_1 import Starter_box_1
 
 # set up pygame modules
 pygame.init()
@@ -27,13 +29,16 @@ display_present = my_font.render(present, True, (255, 255, 255))
 bgstart = pygame.image.load("mirror background.jpg")
 bg1 = pygame.image.load("antique backdrop 1.jpg")
 text_box = pygame.image.load("text box.png")
-starter_box_one = pygame.image.load("starter_box_1.png")
-starter_box_two = pygame.image.load("starter_box.png")
+
+box_1 = Starter_box_1(150, 400)
+box_2 = Starter_box(700, 400)
 
 change_panel = False
 run = True
 interaction = False
 counter = 0
+choice = ""
+cutscene_done = False
 
 print(pygame.font.get_fonts())
 
@@ -57,13 +62,13 @@ while run:
             interaction = False
 
         pos = pygame.mouse.get_pos()
-        if starter_box_one.rect.collidepoint(pos):
+        if box_1.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
             interaction = True
             choice = "past"
-        elif starter_box_two.rect.collidepoint(pos):
+        elif box_2.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
             interaction = True
             choice = "present"
-        else:
+        elif not(event.type == pygame.MOUSEBUTTONDOWN):
             interaction = False
 
     if not change_panel:      # starting screen
@@ -74,12 +79,18 @@ while run:
         screen.fill((0, 0, 0))
         screen.blit(display_player_directions, (385, 300))
         screen.blit(display_past, (220, 500))
-        screen.blit(starter_box_one, (150, 400))
         screen.blit(display_present, (770, 500))
-        screen.blit(starter_box_two, (700, 400))
+        screen.blit(box_1.image, box_1.rect)
+        screen.blit(box_2.image, box_2.rect)
 
     if interaction == True:
         screen.blit(bg1, (0, 0))
         screen.blit(text_box, (150, 130))
+        cutscene_done = True
+
+    # if cutscene_done == True and choice == "past":
+
+
+
 
     pygame.display.update()
