@@ -1,6 +1,7 @@
 import pygame
 from starter_box import Starter_box
 from starter_box_1 import Starter_box_1
+from board import Board
 
 # set up pygame modules
 pygame.init()
@@ -32,9 +33,11 @@ text_box = pygame.image.load("text box.png")
 
 box_1 = Starter_box_1(150, 400)
 box_2 = Starter_box(700, 400)
+board: Board = Board()
 
 change_panel = False
 run = True
+box_chosen = False
 interaction = False
 counter = 0
 choice = ""
@@ -63,13 +66,11 @@ while run:
 
         pos = pygame.mouse.get_pos()
         if box_1.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
-            interaction = True
+            box_chosen = True
             choice = "past"
         elif box_2.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
-            interaction = True
+            box_chosen = True
             choice = "present"
-        elif not(event.type == pygame.MOUSEBUTTONDOWN):
-            interaction = False
 
     if not change_panel:      # starting screen
         screen.blit(bgstart, (-100,0))
@@ -83,14 +84,14 @@ while run:
         screen.blit(box_1.image, box_1.rect)
         screen.blit(box_2.image, box_2.rect)
 
-    if interaction == True:
+    if box_chosen:
         screen.blit(bg1, (0, 0))
-        screen.blit(text_box, (150, 130))
-        cutscene_done = True
+        if interaction:
+            screen.blit(text_box, (150, 130))
+            cutscene_done = True
 
-    # if cutscene_done == True and choice == "past":
-
-
+    if cutscene_done and choice == "past":
+        screen.blit(Board)
 
 
     pygame.display.update()
