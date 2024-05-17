@@ -33,7 +33,7 @@ text_box = pygame.image.load("text box.png")
 
 box_1 = Starter_box_1(150, 400)
 box_2 = Starter_box(700, 400)
-board: Board = Board()
+board = Board()
 
 change_panel = False
 run = True
@@ -64,6 +64,10 @@ while run:
         else:
             interaction = False
 
+        if counter == 8:
+            interaction = False
+            cutscene_done = True
+
         pos = pygame.mouse.get_pos()
         if box_1.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
             box_chosen = True
@@ -88,10 +92,12 @@ while run:
         screen.blit(bg1, (0, 0))
         if interaction:
             screen.blit(text_box, (150, 130))
-            cutscene_done = True
+            print(counter)
+            # if counter == 8:
+            #     cutscene_done = True
 
-    if cutscene_done and choice == "past":
-        screen.blit(Board)
+    if counter == 8 and choice == "past":
+        board.draw_board(screen)
 
 
     pygame.display.update()

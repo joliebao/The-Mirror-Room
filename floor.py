@@ -20,3 +20,6 @@ class Floor:
     #     #     self.image = pygame.image.load("images/wall.png")
     #     # elif self.tile_type == 2:
     #     #     self.image = pygame.image.load("images/start_floor.png")
+
+    def draw_floor(self, screen):
+        screen.blit(self.image, self.rect)
