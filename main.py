@@ -2,6 +2,7 @@ import pygame
 from starter_box import Starter_box
 from starter_box_1 import Starter_box_1
 from board import Board
+from girl import Girl
 
 # set up pygame modules
 pygame.init()
@@ -34,6 +35,7 @@ text_box = pygame.image.load("text box.png")
 box_1 = Starter_box_1(150, 400)
 box_2 = Starter_box(700, 400)
 board = Board()
+g = Girl(0,0)
 
 change_panel = False
 run = True
@@ -55,8 +57,16 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN:
             change_panel = True
 
-        # keys = pygame.key.get_pressed()
-        # if keys[pygame.K_SPACE]:
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            g.move_direction("up")
+        elif keys[pygame.K_a]:
+                g.move_direction("left")
+        elif keys[pygame.K_s]:
+            g.move_direction("down")
+        elif keys[pygame.K_d]:
+            g.move_direction("right")
+
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and change_panel == True:
             counter += 1
         if counter % 2 == 0 and counter != 0:
@@ -97,6 +107,10 @@ while run:
             #     cutscene_done = True
 
     if counter == 8 and choice == "past":
+        board.draw_board(screen)
+        screen.blit(g)
+
+    elif counter == 8 and choice == "present":
         board.draw_board(screen)
 
 
