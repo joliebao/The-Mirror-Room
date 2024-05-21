@@ -9,17 +9,28 @@ class Girl:
         self.image = pygame.image.load("pixilart-drawing.png")
         self.image_size = self.image.get_size()
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
+        scale_size = (self.image_size[0] * 5, self.image_size[1] * 5)
+        self.image = pygame.transform.scale(self.image, scale_size)
+        self.image_size = self.image.get_size()
+        self.delta = 8
+        self.current_direction = "left"
 
-    def move_direction(self, w, a, s, d):
-        if w == "up":
-            self.y = self.y - self.delta
+    def move_direction(self, direction):
+        if self.current_direction == "right" and direction == "left":
+            self.image = pygame.transform.flip(self.image, True, False)
+        elif self.current_direction == "left" and direction == "right":
+            self.image = pygame.transform.flip(self.image, True, False)
+        if direction == "right":
+            self.current_direction = "right"
+            self.x = self.x + self.delta
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
-        if a == "left":
+        if direction == "left":
+            self.current_direction = "left"
             self.x = self.x - self.delta
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
-        if s == "down":
-            self.y = self.y + self.delta
+        if direction == "up":
+            self.y = self.y - self.delta
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
-        if d == "right":
-            self.x = self.x + self.delta
+        if direction == "down":
+            self.y = self.y + self.delta
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])

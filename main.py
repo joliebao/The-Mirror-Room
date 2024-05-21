@@ -45,8 +45,6 @@ counter = 0
 choice = ""
 cutscene_done = False
 
-print(pygame.font.get_fonts())
-
 # -------- Main Program Loop -----------
 while run:
     # --- Main event loop
@@ -56,16 +54,6 @@ while run:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             change_panel = True
-
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            g.move_direction("up")
-        elif keys[pygame.K_a]:
-                g.move_direction("left")
-        elif keys[pygame.K_s]:
-            g.move_direction("down")
-        elif keys[pygame.K_d]:
-            g.move_direction("right")
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and change_panel == True:
             counter += 1
@@ -85,6 +73,20 @@ while run:
         elif box_2.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
             box_chosen = True
             choice = "present"
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+        direction = "up"
+        g.move_direction(direction)
+    elif keys[pygame.K_a]:
+        direction = "left"
+        g.move_direction(direction)
+    elif keys[pygame.K_s]:
+        direction = "down"
+        g.move_direction(direction)
+    elif keys[pygame.K_d]:
+        direction = "right"
+        g.move_direction(direction)
 
     if not change_panel:      # starting screen
         screen.blit(bgstart, (-100,0))
@@ -108,7 +110,8 @@ while run:
 
     if counter == 8 and choice == "past":
         board.draw_board(screen)
-        screen.blit(g)
+        screen.blit(g.image, g.rect)
+        pygame.display.update()
 
     elif counter == 8 and choice == "present":
         board.draw_board(screen)
