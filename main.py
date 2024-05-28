@@ -31,6 +31,7 @@ display_present = my_font.render(present, True, (255, 255, 255))
 bgstart = pygame.image.load("mirror background.jpg")
 bg1 = pygame.image.load("antique backdrop 1.jpg")
 text_box = pygame.image.load("text box.png")
+closet = pygame.image.load("closet.png")
 
 box_1 = Starter_box_1(150, 400)
 box_2 = Starter_box(700, 400)
@@ -92,7 +93,7 @@ while run:
         screen.blit(bgstart, (-100,0))
         screen.blit(display_title, (385, 350))
         screen.blit(display_click_one, (510, 550))
-    elif change_panel:
+    elif change_panel:       #choosing which character
         screen.fill((0, 0, 0))
         screen.blit(display_player_directions, (385, 300))
         screen.blit(display_past, (220, 500))
@@ -100,7 +101,7 @@ while run:
         screen.blit(box_1.image, box_1.rect)
         screen.blit(box_2.image, box_2.rect)
 
-    if box_chosen:
+    if box_chosen:       #dialogue screen
         screen.blit(bg1, (0, 0))
         if interaction:
             screen.blit(text_box, (150, 130))
@@ -108,12 +109,13 @@ while run:
             # if counter == 8:
             #     cutscene_done = True
 
-    if counter == 8 and choice == "past":
+    if counter == 8 and choice == "past":  #Grand daugther POV
         board.draw_board(screen)
         screen.blit(g.image, g.rect)
+        screen.blit(closet, (50, -20))
         pygame.display.update()
 
-    elif counter == 8 and choice == "present":
+    elif counter == 8 and choice == "present":    #Granpa POV
         board.draw_board(screen)
 
 
