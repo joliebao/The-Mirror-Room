@@ -12,7 +12,7 @@ class Girl:
         scale_size = (self.image_size[0] * 8, self.image_size[1] * 8)
         self.image = pygame.transform.scale(self.image, scale_size)
         self.image_size = self.image.get_size()
-        self.delta = 10
+        self.delta = 15
         self.current_direction = "left"
 
     def move_direction(self, direction):

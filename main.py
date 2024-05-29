@@ -3,6 +3,7 @@ from starter_box import Starter_box
 from starter_box_1 import Starter_box_1
 from board import Board
 from girl import Girl
+from radio import Radio
 
 # set up pygame modules
 pygame.init()
@@ -34,11 +35,21 @@ text_box = pygame.image.load("text box.png")
 closet = pygame.image.load("closet.png")
 couch = pygame.image.load("couch.png")
 clock = pygame.image.load("clock.png")
+clock = pygame.transform.scale(clock, (167, 374))
+shelf = pygame.image.load("shelf.png")
+table = pygame.image.load("round table.png")
+table = pygame.transform.scale(table, (481, 300))
+table_2 = pygame.image.load("round table.png")
+table_2 = pygame.transform.scale(table_2, (481, 300))
+table_3 = pygame.image.load("round table.png")
+table_3 = pygame.transform.scale(table_3, (481, 300))
+
 
 box_1 = Starter_box_1(150, 400)
 box_2 = Starter_box(700, 400)
 board = Board()
 g = Girl(0,0)
+radio = Radio(40, 0)
 
 change_panel = False
 run = True
@@ -113,10 +124,15 @@ while run:
 
     if counter == 8 and choice == "past":  #Grand daugther POV
         board.draw_board(screen)
-        screen.blit(closet, (780, -100))
-        screen.blit(clock, (500, -10))
-        screen.blit(couch, (200, -10))
+        screen.blit(closet, (610, -100))
+        screen.blit(clock, (1000, -10))
+        screen.blit(couch, (20, -10))
+        screen.blit(radio.image, radio.rect)
+        screen.blit(shelf, (300, -80))
         screen.blit(g.image, g.rect)
+        screen.blit(table, (0, 200))
+        screen.blit(table_2, (280, 500))
+        screen.blit(table_3, (750, 350))
         pygame.display.update()
 
     elif counter == 8 and choice == "present":    #Granpa POV
