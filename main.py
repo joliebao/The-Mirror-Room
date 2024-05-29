@@ -32,6 +32,8 @@ bgstart = pygame.image.load("mirror background.jpg")
 bg1 = pygame.image.load("antique backdrop 1.jpg")
 text_box = pygame.image.load("text box.png")
 closet = pygame.image.load("closet.png")
+couch = pygame.image.load("couch.png")
+clock = pygame.image.load("clock.png")
 
 box_1 = Starter_box_1(150, 400)
 box_2 = Starter_box(700, 400)
@@ -111,8 +113,10 @@ while run:
 
     if counter == 8 and choice == "past":  #Grand daugther POV
         board.draw_board(screen)
+        screen.blit(closet, (780, -100))
+        screen.blit(clock, (500, -10))
+        screen.blit(couch, (200, -10))
         screen.blit(g.image, g.rect)
-        screen.blit(closet, (50, -20))
         pygame.display.update()
 
     elif counter == 8 and choice == "present":    #Granpa POV
