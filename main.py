@@ -20,6 +20,17 @@ player_directions = "Pick a box (Click one):"
 past = "Past"
 present = "Present"
 
+dialogues = ["Adeline is visiting her grandpa’s antique shop right before he is shutting it down", ", he is getting too old to continue…", "While walking around, she picks things up and examines them, wondering about their purposes and history.", "She stops before a mirror.", "Curious, she reaches out to touch the wood.", "In a flash, she is confined inside.", "Grandpa!? Where are you, and where am I!?", "Adeline! Did you touch the mirror while I wasn’t looking?!", "*sigh* It just had to be this mirror...", "Look around Addie and tell me what you see. I’ll get you out of there."
+Ar: “Adeline! Did you touch the mirror while I wasn’t looking?!”
+Ad: “But I only touched the frame!”
+Ar: *sigh*, “It just had to be this mirror... Look around Addie and tell me what you see. I’ll get you out of there.”
+
+Adeline is surprised to see a carbon copy of the store. The well-managed store looked more clean and less cluttered.
+
+Ad: “Is this the store? It looks a lot newer.”
+Ar: “The past. You’re in the past...”
+"]
+
 display_title = my_font.render(title, True, (249, 234, 199))
 my_font = pygame.font.SysFont('Courier', 25)
 display_click_one = my_font.render(click_one, True, (255, 255, 255))
@@ -51,6 +62,8 @@ vase = pygame.image.load("vase.png")
 vase = pygame.transform.scale(vase, (250, 250))
 stairs = pygame.image.load("stairs.png")
 stairs = pygame.transform.flip(stairs, True, False)
+bg3 = pygame.image.load("radio up close.PNG")
+bg3 = pygame.transform.scale(bg3, (1400, 800))
 
 
 box_1 = Starter_box_1(150, 400)
@@ -124,13 +137,12 @@ while run:
 
     if box_chosen:       #dialogue screen
         screen.blit(bg1, (0, 0))
+        counter = 0
         if interaction:
             screen.blit(text_box, (150, 130))
-            print(counter)
-            # if counter == 8:
-            #     cutscene_done = True
+            counter = counter + 1
 
-    if counter == 8 and choice == "past":  #Grand daugther POV
+    if choice == "past" and interaction == True:  #Grand daugther POV
         board.draw_board(screen)
         screen.blit(closet, (610, -100))
         screen.blit(clock, (1000, -10))
@@ -147,8 +159,9 @@ while run:
         screen.blit(lamp, (400, 360))
         pygame.display.update()
 
-        if radio.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
-            screen.blit()
+    pos = pygame.mouse.get_pos()
+    if radio.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
+            screen.blit(bg3, (-120,0))
 
     elif counter == 8 and choice == "present":    #Granpa POV
         board.draw_board(screen)
