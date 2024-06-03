@@ -9,7 +9,7 @@ class Floor:
         self.y = y
         self.row = grid_row
         self.column = grid_column
-        self.image = pygame.image.load("Wood floor.png")
+        self.image = pygame.image.load("image files/Wood floor.png")
         self.image_size = self.image.get_size()
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
 

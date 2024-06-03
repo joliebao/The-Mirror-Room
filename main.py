@@ -20,16 +20,7 @@ player_directions = "Pick a box (Click one):"
 past = "Past"
 present = "Present"
 
-dialogues = ["Adeline is visiting her grandpa’s antique shop right before he is shutting it down", ", he is getting too old to continue…", "While walking around, she picks things up and examines them, wondering about their purposes and history.", "She stops before a mirror.", "Curious, she reaches out to touch the wood.", "In a flash, she is confined inside.", "Grandpa!? Where are you, and where am I!?", "Adeline! Did you touch the mirror while I wasn’t looking?!", "*sigh* It just had to be this mirror...", "Look around Addie and tell me what you see. I’ll get you out of there."
-Ar: “Adeline! Did you touch the mirror while I wasn’t looking?!”
-Ad: “But I only touched the frame!”
-Ar: *sigh*, “It just had to be this mirror... Look around Addie and tell me what you see. I’ll get you out of there.”
-
-Adeline is surprised to see a carbon copy of the store. The well-managed store looked more clean and less cluttered.
-
-Ad: “Is this the store? It looks a lot newer.”
-Ar: “The past. You’re in the past...”
-"]
+dialogues = ["Adeline is visiting her grandpa’s antique shop right before he is shutting it down", ", he is getting too old to continue…", "While walking around, she picks things up and examines them, wondering about their purposes and history.", "She stops before a mirror.", "Curious, she reaches out to touch the wood.", "In a flash, she is confined inside.", "Grandpa!? Where are you, and where am I!?", "Adeline! Did you touch the mirror while I wasn’t looking?!", "*sigh* It just had to be this mirror...", "Look around Addie and tell me what you see. I’ll get you out of there.", "Adeline is surprised to see a carbon copy of the store.", "The well-managed store looked more clean and less cluttered.", "Is this the store? It looks a lot older.", "The past. You’re in the past..."]
 
 display_title = my_font.render(title, True, (249, 234, 199))
 my_font = pygame.font.SysFont('Courier', 25)
@@ -40,29 +31,29 @@ my_font = pygame.font.SysFont('Papyrus', 30)
 display_past = my_font.render(past, True, (255, 255, 255))
 display_present = my_font.render(present, True, (255, 255, 255))
 
-bgstart = pygame.image.load("mirror background.jpg")
-bg1 = pygame.image.load("antique backdrop 1.jpg")
-text_box = pygame.image.load("text box.png")
-closet = pygame.image.load("closet.png")
-couch = pygame.image.load("couch.png")
-clock = pygame.image.load("clock.png")
+bgstart = pygame.image.load("image files/mirror background.jpg")
+bg1 = pygame.image.load("image files/antique backdrop 1.jpg")
+text_box = pygame.image.load("image files/text box.png")
+closet = pygame.image.load("image files/closet.png")
+couch = pygame.image.load("image files/couch.png")
+clock = pygame.image.load("image files/clock.png")
 clock = pygame.transform.scale(clock, (167, 374))
-shelf = pygame.image.load("shelf.png")
-ladder = pygame.image.load("ladder.png")
+shelf = pygame.image.load("image files/shelf.png")
+ladder = pygame.image.load("image files/ladder.png")
 ladder = pygame.transform.scale(ladder, (200, 300))
-table = pygame.image.load("round table.png")
+table = pygame.image.load("image files/round table.png")
 table = pygame.transform.scale(table, (481, 300))
-table_2 = pygame.image.load("round table.png")
+table_2 = pygame.image.load("image files/round table.png")
 table_2 = pygame.transform.scale(table_2, (481, 300))
-table_3 = pygame.image.load("round table.png")
+table_3 = pygame.image.load("image files/round table.png")
 table_3 = pygame.transform.scale(table_3, (481, 300))
-lamp = pygame.image.load("lamp.png")
+lamp = pygame.image.load("image files/lamp.png")
 lamp = pygame.transform.scale(lamp, (250, 250))
-vase = pygame.image.load("vase.png")
+vase = pygame.image.load("image files/vase.png")
 vase = pygame.transform.scale(vase, (250, 250))
-stairs = pygame.image.load("stairs.png")
+stairs = pygame.image.load("image files/stairs.png")
 stairs = pygame.transform.flip(stairs, True, False)
-bg3 = pygame.image.load("radio up close.PNG")
+bg3 = pygame.image.load("image files/radio up close.PNG")
 bg3 = pygame.transform.scale(bg3, (1400, 800))
 
 
@@ -79,6 +70,7 @@ interaction = False
 counter = 0
 choice = ""
 cutscene_done = False
+dialogue_screen = False
 
 # -------- Main Program Loop -----------
 while run:
@@ -136,13 +128,21 @@ while run:
         screen.blit(box_2.image, box_2.rect)
 
     if box_chosen:       #dialogue screen
+        dialogue_screen = True
         screen.blit(bg1, (0, 0))
-        counter = 0
-        if interaction:
+        i = 0
+        if interaction and i != len(dialogues):
+            for i in range(len(dialogues)):
+                text = dialogues[i-1]
             screen.blit(text_box, (150, 130))
-            counter = counter + 1
+            display_dialogue = my_font.render(text, True, (0, 0, 0))
+            my_font = pygame.font.SysFont('Courier', 25)
+            screen.blit(display_dialogue, (180, 600))
+            i = i + 1
+            # if i == len(dialogues):
+            #     dialogue_screen = False
 
-    if choice == "past" and interaction == True:  #Grand daugther POV
+    if choice == "past": # and dialogue_screen == False:  #Grand daugther POV
         board.draw_board(screen)
         screen.blit(closet, (610, -100))
         screen.blit(clock, (1000, -10))
@@ -159,11 +159,11 @@ while run:
         screen.blit(lamp, (400, 360))
         pygame.display.update()
 
-    pos = pygame.mouse.get_pos()
-    if radio.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
+        pos = pygame.mouse.get_pos()
+        if radio.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
             screen.blit(bg3, (-120,0))
 
-    elif counter == 8 and choice == "present":    #Granpa POV
+    elif choice == "present":    #Granpa POV
         board.draw_board(screen)
 
 

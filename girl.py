@@ -6,7 +6,7 @@ class Girl:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.image = pygame.image.load("girl backward.png")
+        self.image = pygame.image.load("image files/girl backward.png")
         self.image_size = self.image.get_size()
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
         scale_size = (self.image_size[0] * 8, self.image_size[1] * 8)
@@ -17,7 +17,7 @@ class Girl:
 
     def move_direction(self, direction):
         if self.current_direction == "up" and direction == "down":
-            self.image = pygame.image.load("girl forward.png")
+            self.image = pygame.image.load("image files/girl forward.png")
             self.image_size = self.image.get_size()
             scale_size = (self.image_size[0] * 8, self.image_size[1] * 8)
             self.image = pygame.transform.scale(self.image, scale_size)
@@ -25,7 +25,7 @@ class Girl:
             self.current_direction = direction
 
         elif self.current_direction == "down" and direction == "up":
-            self.image = pygame.image.load("girl backward.png")
+            self.image = pygame.image.load("image files/girl backward.png")
             self.image_size = self.image.get_size()
             scale_size = (self.image_size[0] * 8, self.image_size[1] * 8)
             self.image = pygame.transform.scale(self.image, scale_size)
