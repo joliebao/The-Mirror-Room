@@ -22,7 +22,7 @@ class Girl:
             scale_size = (self.image_size[0] * 8, self.image_size[1] * 8)
             self.image = pygame.transform.scale(self.image, scale_size)
             self.image_size = self.image.get_size()
-            self.current_direction = direction
+            self.current_direction = "up"
 
         elif self.current_direction == "down" and direction == "up":
             self.image = pygame.image.load("image files/girl backward.png")
@@ -30,15 +30,15 @@ class Girl:
             scale_size = (self.image_size[0] * 8, self.image_size[1] * 8)
             self.image = pygame.transform.scale(self.image, scale_size)
             self.image_size = self.image.get_size()
-            self.current_direction = direction
+            self.current_direction = "down"
 
         elif self.current_direction == "left" and direction == "right":
             self.image = pygame.transform.flip(self.image, True, False)
-            self.current_direction = direction
+            self.current_direction = "left"
 
         elif self.current_direction == "right" and direction == "left":
             self.image = pygame.transform.flip(self.image, True, False)
-            self.current_direction = direction
+            self.current_direction = "right"
 
         if direction == "right":
             self.current_direction = "right"
