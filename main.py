@@ -31,6 +31,8 @@ my_font = pygame.font.SysFont('Papyrus', 30)
 display_past = my_font.render(past, True, (255, 255, 255))
 display_present = my_font.render(present, True, (255, 255, 255))
 
+radio_code = my_font.render("placeholder", True, (0, 0, 0))
+
 text = ""
 display_dialogue = my_font.render(text, True, (0, 0, 0))
 
@@ -76,6 +78,7 @@ dialogue_screen = False
 text = ""
 i = 0
 radio_screen = False
+radio_numbers = []
 
 # -------- Main Program Loop -----------
 while run:
@@ -128,36 +131,39 @@ while run:
         screen.blit(box_1.image, box_1.rect)
         screen.blit(box_2.image, box_2.rect)
 
-    if box_chosen and dialogue_screen == True:       #dialogue screen
-        if i <= len(dialogues):
-            dialogue_screen = True
-        elif i > len(dialogues):
-                dialogue_screen = False
-        screen.blit(bg1, (0, 0))
-        screen.blit(text_box, (150, 130))
-        my_font = pygame.font.SysFont('Courier', 25)
-        if i == 2:
-            display_dialogue = my_font.render(dialogues[i - 2], True, (0, 0, 0))
-            screen.blit(display_dialogue, (180, 600))
-            display_dialogue_two = my_font.render(dialogues[i - 1], True, (0, 0, 0))
-            screen.blit(display_dialogue_two, (180, 650))
-            if interaction == True:
-                i = i + 1
-                interaction = False
-        elif i == 3 or i == 11:
-            display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
-            screen.blit(display_dialogue, (180, 600))
-            display_dialogue_two = my_font.render(dialogues[i], True, (0, 0, 0))
-            screen.blit(display_dialogue_two, (180, 650))
-            if interaction == True:
-                i = i + 2
-                interaction = False
-        elif i <= (len(dialogues)):
-            display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
-            screen.blit(display_dialogue, (180, 600))
-        while i <= (len(dialogues)) and interaction == True:
-            i = i + 1
-            interaction = False
+    # if box_chosen and dialogue_screen == True:       #dialogue screen
+    #     if i <= len(dialogues):
+    #         dialogue_screen = True
+    #     elif i > len(dialogues):
+    #             dialogue_screen = False
+    #     screen.blit(bg1, (0, 0))
+    #     screen.blit(text_box, (150, 130))
+    #     my_font = pygame.font.SysFont('Courier', 25)
+    #     if i == 2:
+    #         display_dialogue = my_font.render(dialogues[i - 2], True, (0, 0, 0))
+    #         screen.blit(display_dialogue, (180, 600))
+    #         display_dialogue_two = my_font.render(dialogues[i - 1], True, (0, 0, 0))
+    #         screen.blit(display_dialogue_two, (180, 650))
+    #         if interaction == True:
+    #             i = i + 1
+    #             interaction = False
+    #     elif i == 3 or i == 11:
+    #         display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
+    #         screen.blit(display_dialogue, (180, 600))
+    #         display_dialogue_two = my_font.render(dialogues[i], True, (0, 0, 0))
+    #         screen.blit(display_dialogue_two, (180, 650))
+    #         if interaction == True:
+    #             i = i + 2
+    #             interaction = False
+    #     elif i <= (len(dialogues)):
+    #         display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
+    #         screen.blit(display_dialogue, (180, 600))
+    #     while i <= (len(dialogues)) and interaction == True:
+    #         i = i + 1
+    #         interaction = False
+
+    dialogue_screen = False
+    i = 0
 
     if choice == "past" and dialogue_screen == False:  #Grand daughter POV
         board.draw_board(screen)
@@ -175,14 +181,63 @@ while run:
         screen.blit(vase, (870, 220))
         screen.blit(lamp, (400, 360))
 
-        pos = pygame.mouse.get_pos()
-        if radio.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
-            radio_screen = True
-        if radio_screen == True:
-            screen.blit(bg3, (-120, 0))
+        for event in pygame.event.get():                    #Taking in keyboard and mouse controls
+            pos = pygame.mouse.get_pos()
             keys = pygame.key.get_pressed()
-        elif radio_screen == True and keys[pygame.K_ESCAPE]:
+        if radio.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:               #Radio close up off screen
+            radio_screen = True
+        if radio_screen == True and keys[pygame.K_ESCAPE]:      #Radio close up on screen
             radio_screen = False
+        elif radio_screen == True:
+            screen.blit(bg3, (-120, 0))
+            my_font = pygame.font.SysFont('Courier', 80)
+            if keys[pygame.K_0]:                    #Keyboard commands for the code!
+                radio_numbers.append("0")
+                if i == 1:
+                    radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                elif i == 2:
+
+                i = i+1
+            elif keys[pygame.K_1]:
+                radio_numbers.append("1")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i+1
+            elif keys[pygame.K_2]:
+                radio_numbers.append("2")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i + 1
+            elif keys[pygame.K_3]:
+                radio_numbers.append("3")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i + 1
+            elif keys[pygame.K_4]:
+                radio_numbers.append("4")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i + 1
+            elif keys[pygame.K_5]:
+                radio_numbers.append("5")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i + 1
+            elif keys[pygame.K_6]:
+                radio_numbers.append("6")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i + 1
+            elif keys[pygame.K_7]:
+                radio_numbers.append("7")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i + 1
+            elif keys[pygame.K_1]:
+                radio_numbers.append("8")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i + 1
+            elif keys[pygame.K_1]:
+                radio_numbers.append("9")
+                radio_code = my_font.render(radio_numbers[i], True, (0, 0, 0))
+                i = i + 1
+            screen.blit(radio_code, (495, 355))
+        if len(radio_numbers) > 4:
+            while len(radio_numbers) != 4:
+                radio_numbers.pop(5)
 
         pygame.display.update()
 
