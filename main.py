@@ -4,6 +4,7 @@ from starter_box_1 import Starter_box_1
 from board import Board
 from girl import Girl
 from radio import Radio
+from man import Man
 
 # set up pygame modules
 pygame.init()
@@ -39,8 +40,6 @@ radio_code_4 = my_font.render("", True, (0, 0, 0))
 text = ""
 display_dialogue = my_font.render(text, True, (0, 0, 0))
 
-bgstart = pygame.image.load("image files/mirror background.jpg")
-bg1 = pygame.image.load("image files/antique backdrop 1.jpg")
 text_box = pygame.image.load("image files/text box.png")
 closet = pygame.image.load("image files/closet.png")
 couch = pygame.image.load("image files/couch.png")
@@ -61,13 +60,18 @@ vase = pygame.image.load("image files/vase.png")
 vase = pygame.transform.scale(vase, (250, 250))
 stairs = pygame.image.load("image files/stairs.png")
 stairs = pygame.transform.flip(stairs, True, False)
+wallboard = pygame.image.load("image files/board.png")
+
+bgstart = pygame.image.load("image files/mirror background.jpg")
+bg1 = pygame.image.load("image files/antique backdrop 1.jpg")
 bg3 = pygame.image.load("image files/radio up close.PNG")
 bg3 = pygame.transform.scale(bg3, (1400, 800))
 
 box_1 = Starter_box_1(150, 400)
 box_2 = Starter_box(700, 400)
 board = Board()
-g = Girl(0,0)
+g = Girl(0, 0)
+m = Man(0, 0)
 radio = Radio(40, 0)
 
 change_panel = False
@@ -112,17 +116,33 @@ while run:
         direction = "right"
         g.move_direction(direction)
 
-    if not change_panel:      # starting screen
-        screen.blit(bgstart, (-100,0))
-        screen.blit(display_title, (385, 350))
-        screen.blit(display_click_one, (510, 550))
-    elif change_panel:       #choosing which character
-        pos = pygame.mouse.get_pos()
-        if box_1.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
+    if keys[pygame.K_w]:
+        direction = "up"
+        m.move_direction(direction)
+    elif keys[pygame.K_a]:
+        direction = "left"
+        m.move_direction(direction)
+    elif keys[pygame.K_s]:
+        direction = "down"
+        m.move_direction(direction)
+    elif keys[pygame.K_d]:
+        direction = "right"
+        m.move_direction(direction)
+
+        # starting screen
+    pos = pygame.mouse.get_pos()
+    screen.blit(bgstart, (-100, 0))
+    screen.blit(display_title, (385, 350))
+    screen.blit(display_click_one, (510, 550))
+    if event.type == pygame.MOUSEBUTTONDOWN and not (box_1.rect.collidepoint(pos)) and not (box_2.rect.collidepoint(pos)):
+        change_panel = True
+
+    if change_panel:  # choosing which character
+        if box_1.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             box_chosen = True
             choice = "past"
             dialogue_screen = True
-        elif box_2.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
+        elif box_2.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             box_chosen = True
             choice = "present"
             dialogue_screen = True
@@ -134,11 +154,13 @@ while run:
         screen.blit(box_1.image, box_1.rect)
         screen.blit(box_2.image, box_2.rect)
 
-    if box_chosen and dialogue_screen == True:       #dialogue screen
+    i = 0
+
+    if box_chosen and dialogue_screen == True:  # dialogue screen
         if i <= len(dialogues):
             dialogue_screen = True
         elif i > len(dialogues):
-                dialogue_screen = False
+            dialogue_screen = False
         screen.blit(bg1, (0, 0))
         screen.blit(text_box, (150, 130))
         my_font = pygame.font.SysFont('Courier', 25)
@@ -165,6 +187,7 @@ while run:
             i = i + 1
             interaction = False
 
+    dialogue_screen = False
     i = 0
 
     if choice == "past" and dialogue_screen == False:  #Grand daughter POV
@@ -313,6 +336,12 @@ while run:
 
     elif choice == "present" and dialogue_screen == False:    #Grandpa POV
         board.draw_board(screen)
+        screen.blit(wallboard, (250, 0))
+        screen.blit(stairs, (-250, 400))
+        screen.blit(clock, (25, -10))
+        screen.blit(couch, (750, 250))
+        screen.blit(m.image, m.rect)
+        screen.blit(table, (725,400))
 
 
     pygame.display.update()
