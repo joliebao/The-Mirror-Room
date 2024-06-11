@@ -154,7 +154,7 @@ while run:
         screen.blit(box_1.image, box_1.rect)
         screen.blit(box_2.image, box_2.rect)
 
-    i = 0
+    # i = 0
 
     if box_chosen and dialogue_screen == True:  # dialogue screen
         if i <= len(dialogues):
@@ -169,9 +169,8 @@ while run:
             screen.blit(display_dialogue, (180, 600))
             display_dialogue_two = my_font.render(dialogues[i - 1], True, (0, 0, 0))
             screen.blit(display_dialogue_two, (180, 650))
-            if interaction == True:
-                i = i + 1
-                interaction = False
+            i = i + 1
+            interaction = False
         elif i == 3 or i == 11:
             display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
             screen.blit(display_dialogue, (180, 600))
@@ -180,15 +179,20 @@ while run:
             if interaction == True:
                 i = i + 2
                 interaction = False
+        if i == 8 or i == 14:
+            my_font = pygame.font.SysFont('Courier', 30)
+            display_ad = my_font.render("Adeline", True, (255, 255, 255))
+            screen.blit(display_ad, (350, 540))
+        if i > 7 and i < 15 and i != 8 and i != 14:
+            my_font = pygame.font.SysFont('Courier', 30)
+            display_ar = my_font.render("Arthur", True, (255, 255, 255))
+            screen.blit(display_ar, (350, 540))
         elif i <= (len(dialogues)):
             display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
             screen.blit(display_dialogue, (180, 600))
-        while i <= (len(dialogues)) and interaction == True:
+        if i <= (len(dialogues)) and interaction == True:
             i = i + 1
             interaction = False
-
-    dialogue_screen = False
-    i = 0
 
     if choice == "past" and dialogue_screen == False:  #Grand daughter POV
         board.draw_board(screen)
