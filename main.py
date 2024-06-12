@@ -5,6 +5,8 @@ from board import Board
 from girl import Girl
 from radio import Radio
 from man import Man
+from shelf import Shelf
+from whiteboard import Whiteboard
 
 # set up pygame modules
 pygame.init()
@@ -21,7 +23,7 @@ player_directions = "Pick a box (Click one):"
 past = "Past"
 present = "Present"
 
-dialogues = ["Adeline is visiting her grandpa’s antique shop right before", "he is shutting it down. He is getting too old to continue…", "While walking around, she picks things up and examines them,", "wondering about their purposes and history.", "She stops before a mirror.", "Curious, she reaches out to touch the wood.", "In a flash, she is confined inside.", "Grandpa!? Where are you, and where am I!?", "Adeline! Did you touch the mirror while I wasn’t looking?!", "*sigh* It just had to be this mirror...", "Look around Addie and tell me what you see. I’ll get you out of", "there.", "Adeline is surprised to see a carbon copy of the store.", "The well-managed store looked more clean and less cluttered.", "Is this the store? It looks a lot older.", "The past. You’re in the past..."]
+dialogues = ["Adeline is visiting her grandpa’s antique shop right before", "he is shutting it down.", "He is getting too old to continue…", "While walking around, she picks things up and examines them,", "inquisiting their purpose and history.", "She stops before a mirror.", "Curious, she reaches out to touch the wood.", "In a flash, she is confined inside.", "Grandpa!? Where are you, and where am I!?", "Adeline! Did you touch the mirror while I wasn’t looking?!", "*sigh* It just had to be this mirror...", "Look around Addie and tell me what you see. I’ll get you out of", "there.", "Adeline is surprised to see a carbon copy of the store.", "The well-managed store looked more clean and less cluttered.", "Is this the store? It looks a lot older.", "The past. You’re in the past..."]
 
 display_title = my_font.render(title, True, (249, 234, 199))
 my_font = pygame.font.SysFont('Courier', 25)
@@ -60,12 +62,26 @@ vase = pygame.image.load("image files/vase.png")
 vase = pygame.transform.scale(vase, (250, 250))
 stairs = pygame.image.load("image files/stairs.png")
 stairs = pygame.transform.flip(stairs, True, False)
-wallboard = pygame.image.load("image files/board.png")
+
+whiteboard = pygame.image.load("image files/board.png")
+whiteboard = pygame.transform.scale(whiteboard, (260.5, 239.5))
+smallshelf = pygame.image.load("image files/small shelf.png")
+smallshelf = pygame.transform.scale(smallshelf, (400, 400))
+vase_two = pygame.image.load("image files/vase 2.png")
+vase_two = pygame.transform.scale(vase_two, (250, 250))
+vase_three = pygame.image.load("image files/vase 3.png")
+vase_three = pygame.transform.scale(vase_three, (300, 300))
+vase_four = pygame.image.load("image files/vase 4.png")
+vase_four = pygame.transform.scale(vase_four, (250, 250))
 
 bgstart = pygame.image.load("image files/mirror background.jpg")
 bg1 = pygame.image.load("image files/antique backdrop 1.jpg")
 bg3 = pygame.image.load("image files/radio up close.PNG")
 bg3 = pygame.transform.scale(bg3, (1400, 800))
+bg4 = pygame.image.load("image files/whiteboard close up.jpg")
+bg4 = pygame.transform.scale(bg4, (1400, 800))
+bg5 = pygame.image.load("image files/shelf close up.jpg")
+bg5 = pygame.transform.scale(bg5, (1400, 800))
 
 box_1 = Starter_box_1(150, 400)
 box_2 = Starter_box(700, 400)
@@ -73,6 +89,8 @@ board = Board()
 g = Girl(0, 0)
 m = Man(0, 0)
 radio = Radio(40, 0)
+s = Shelf(300, -80)
+w = Whiteboard(250, 50)
 
 change_panel = False
 run = True
@@ -86,6 +104,8 @@ text = ""
 i = 0
 radio_screen = False
 radio_numbers = []
+s_screen = False
+w_screen = False
 
 # -------- Main Program Loop -----------
 while run:
@@ -101,6 +121,32 @@ while run:
             interaction = True
         else:
             interaction = False
+
+        pos = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONDOWN and not (box_1.rect.collidepoint(pos)) and not (
+        box_2.rect.collidepoint(pos)):
+            change_panel = True
+
+        if change_panel == False:
+            screen.blit(bgstart, (-100, 0))
+            screen.blit(display_title, (385, 350))
+            screen.blit(display_click_one, (510, 550))
+
+        if change_panel == True:  # choosing which character
+            screen.fill((0, 0, 0))
+            screen.blit(display_player_directions, (385, 300))
+            screen.blit(display_past, (220, 500))
+            screen.blit(display_present, (770, 500))
+            screen.blit(box_1.image, box_1.rect)
+            screen.blit(box_2.image, box_2.rect)
+            if box_1.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                box_chosen = True
+                choice = "past"
+                dialogue_screen = True
+            elif box_2.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                box_chosen = True
+                choice = "present"
+                dialogue_screen = True
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
@@ -129,33 +175,6 @@ while run:
         direction = "right"
         m.move_direction(direction)
 
-        # starting screen
-    pos = pygame.mouse.get_pos()
-    screen.blit(bgstart, (-100, 0))
-    screen.blit(display_title, (385, 350))
-    screen.blit(display_click_one, (510, 550))
-    if event.type == pygame.MOUSEBUTTONDOWN and not (box_1.rect.collidepoint(pos)) and not (box_2.rect.collidepoint(pos)):
-        change_panel = True
-
-    if change_panel:  # choosing which character
-        if box_1.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            box_chosen = True
-            choice = "past"
-            dialogue_screen = True
-        elif box_2.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            box_chosen = True
-            choice = "present"
-            dialogue_screen = True
-
-        screen.fill((0, 0, 0))
-        screen.blit(display_player_directions, (385, 300))
-        screen.blit(display_past, (220, 500))
-        screen.blit(display_present, (770, 500))
-        screen.blit(box_1.image, box_1.rect)
-        screen.blit(box_2.image, box_2.rect)
-
-    # i = 0
-
     if box_chosen and dialogue_screen == True:  # dialogue screen
         if i <= len(dialogues):
             dialogue_screen = True
@@ -169,27 +188,28 @@ while run:
             screen.blit(display_dialogue, (180, 600))
             display_dialogue_two = my_font.render(dialogues[i - 1], True, (0, 0, 0))
             screen.blit(display_dialogue_two, (180, 650))
-            i = i + 1
-            interaction = False
-        elif i == 3 or i == 11:
+            if interaction == True:
+                i = i + 1
+                interaction = False
+        elif i == 4 or i == 12:
             display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
             screen.blit(display_dialogue, (180, 600))
             display_dialogue_two = my_font.render(dialogues[i], True, (0, 0, 0))
             screen.blit(display_dialogue_two, (180, 650))
             if interaction == True:
-                i = i + 2
+                i = i + 1
                 interaction = False
-        if i == 8 or i == 14:
+        elif i <= (len(dialogues)) and i!=5 and i != 13:
+            display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
+            screen.blit(display_dialogue, (180, 600))
+        if i == 9 or i == 16:
             my_font = pygame.font.SysFont('Courier', 30)
             display_ad = my_font.render("Adeline", True, (255, 255, 255))
             screen.blit(display_ad, (350, 540))
-        if i > 7 and i < 15 and i != 8 and i != 14:
+        elif i > 8 and i < 18 and i != 13 and i != 14 and i != 15:
             my_font = pygame.font.SysFont('Courier', 30)
             display_ar = my_font.render("Arthur", True, (255, 255, 255))
             screen.blit(display_ar, (350, 540))
-        elif i <= (len(dialogues)):
-            display_dialogue = my_font.render(dialogues[i - 1], True, (0, 0, 0))
-            screen.blit(display_dialogue, (180, 600))
         if i <= (len(dialogues)) and interaction == True:
             i = i + 1
             interaction = False
@@ -200,7 +220,7 @@ while run:
         screen.blit(clock, (1000, -10))
         screen.blit(couch, (20, -10))
         screen.blit(radio.image, radio.rect)
-        screen.blit(shelf, (300, -80))
+        screen.blit(s.image, s.rect)
         screen.blit(ladder, (400, 40))
         screen.blit(stairs, (-250, 400))
         screen.blit(g.image, g.rect)
@@ -336,16 +356,53 @@ while run:
             screen.blit(radio_code_3, (603, 355))
             screen.blit(radio_code_4, (655, 355))
 
+        for event in pygame.event.get():  # Taking in keyboard and mouse controls
+            pos = pygame.mouse.get_pos()
+            keys = pygame.key.get_pressed()
+        if s.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
+            s_screen = True
+        if s_screen == True and keys[pygame.K_ESCAPE]:  # Radio close up on screen
+            s_screen = False
+        elif s_screen == True:
+            screen.blit(bg5, (-120, 0))
+
         pygame.display.update()
 
     elif choice == "present" and dialogue_screen == False:    #Grandpa POV
+        s = Shelf(500, -80)
+
         board.draw_board(screen)
-        screen.blit(wallboard, (250, 0))
+        screen.blit(w.image, w.rect)
         screen.blit(stairs, (-250, 400))
         screen.blit(clock, (25, -10))
+        screen.blit(s.image, s.rect)
         screen.blit(couch, (750, 250))
+        screen.blit(vase_two, (900, 50))
         screen.blit(m.image, m.rect)
+        screen.blit(table_2, (280, 290))
+        screen.blit(smallshelf, (200, 460))
         screen.blit(table, (725,400))
+        screen.blit(vase_three, (450, 500))
+        screen.blit(vase_four, (630, 560))
 
+        for event in pygame.event.get():  # Taking in keyboard and mouse controls
+            pos = pygame.mouse.get_pos()
+            keys = pygame.key.get_pressed()
+        if s.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
+            s_screen = True
+        if s_screen == True and keys[pygame.K_ESCAPE]:  # Radio close up on screen
+            s_screen = False
+        elif s_screen == True:
+            screen.blit(bg5, (-120, 0))
+
+        for event in pygame.event.get():  # Taking in keyboard and mouse controls
+            pos = pygame.mouse.get_pos()
+            keys = pygame.key.get_pressed()
+        if w.rect.collidepoint(pos) and event.type == pygame.MOUSEBUTTONDOWN:
+            w_screen = True
+        if w_screen == True and keys[pygame.K_ESCAPE]:  # Radio close up on screen
+            w_screen = False
+        elif w_screen == True:
+            screen.blit(bg4, (-120, 0))
 
     pygame.display.update()
